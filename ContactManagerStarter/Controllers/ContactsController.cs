@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using MailKit;
 using MimeKit;
 using MailKit.Net.Smtp;
+using Microsoft.Extensions.Logging;
 
 namespace ContactManager.Controllers
 {
@@ -19,10 +20,14 @@ namespace ContactManager.Controllers
         private readonly ApplicationContext _context;
         private readonly IHubContext<ContactHub> _hubContext;
 
-        public ContactsController(ApplicationContext context, IHubContext<ContactHub> hubContext)
+        //Placing in a logger to Contacts controller
+        private readonly ILogger<ContactsController> _logger;
+
+        public ContactsController(ApplicationContext context, IHubContext<ContactHub> hubContext, ILogger<ContactsController> logger)
         {
             _context = context;
             _hubContext = hubContext;
+            _logger = logger;
         }
 
         public async Task<IActionResult> DeleteContact(Guid id)
@@ -43,6 +48,7 @@ namespace ContactManager.Controllers
 
             await _hubContext.Clients.All.SendAsync("Update");
 
+            _logger.LogInformation("Contact [{contactFirst} {contactLast}] ID#: {contactID} deleted at {DT}", contactToDelete.FirstName, contactToDelete.LastName, contactToDelete.Id, DateTime.UtcNow.ToLongTimeString());
             return Ok();
         }
 
@@ -68,6 +74,8 @@ namespace ContactManager.Controllers
                 EmailAddresses = contact.EmailAddresses,
                 Addresses = contact.Addresses
             };
+
+            _logger.LogInformation("Contact [{contactFirst} {contactLast}] ID#: [{contactID}] Edited at {DT}", contact.FirstName, contact.LastName, contact.Id, DateTime.UtcNow.ToLongTimeString());
 
             return PartialView("_EditContact", viewModel);
         }
@@ -147,6 +155,8 @@ namespace ContactManager.Controllers
 
             await _context.SaveChangesAsync();
             await _hubContext.Clients.All.SendAsync("Update");
+
+            _logger.LogInformation("Contact [{contactFirst} {contactLast}] ID#: [{contactID}] Saved at {DT}", contact.FirstName, contact.LastName, contact.Id, DateTime.UtcNow.ToLongTimeString());
 
             return Ok();
         }

@@ -7,6 +7,7 @@ $(function () {
     $(document).on("dblclick", ".editContact", function () {
         let buttonClicked = $(this);
         let id = buttonClicked.data("id");
+
         $.ajax({
             type: "GET",
             url: "/Contacts/EditContact",
@@ -23,6 +24,7 @@ $(function () {
             }
         });
     });
+
 
     $(document).on("click", ".deleteContact", function () {
         let buttonClicked = $(this);
@@ -51,6 +53,7 @@ $(function () {
             $('#newEmailAddress').val("");  
             $('#newEmailAddress').removeClass("invalidInput");
             $('#invalidEmailFeedback').hide();
+            $('#NotAddedEmailFeedback').hide();
         } else {
             $('#newEmailAddress').addClass("invalidInput");
             $('#invalidEmailFeedback').show();
@@ -147,6 +150,13 @@ $(function () {
                 isValid = false;
             }
 
+            //Checks to see if the input box for email addresses is empty. If not, show a warning
+            if ($('#newEmailAddress').val() != "") {
+                $('#NotAddedEmailFeedback').addClass("invalidInput");
+                $('#NotAddedEmailFeedback').show();
+                isValid = false;
+            }
+
             return isValid;
         }
 
@@ -240,7 +250,7 @@ $(function () {
             return false;
         }
     }
-
+    
     function initSignalr() {
         var connection = new signalR.HubConnectionBuilder().withUrl("/contactHub").build();
 
