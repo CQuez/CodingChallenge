@@ -32,3 +32,13 @@ This solution contains an easy to use and simple contact manager. It also works 
 * If you wish to edit a contact, just double click on their name and you will be greeted by the Edit Contact popup window. Once you are finished, be sure to press the green **Save** button to save your changes. Use the **Cancel** button to discard any unwanted changes.
 
 * To delete a contact just press the red **X** and confirm that you want to delete that contact.
+
+
+# My Improvements
+To complete the challenge I had chosen the following three improvements.
+
+* Switch to a datepicker for the Date of Birth input and a dropdown for Title in New/Edit Contact
+  
+* Add an alert if an Email or Address was typed, but not added to the list, in New/Edit Contact when saving
+  
+* Add logging, using the ILogger interface, throughout the project
