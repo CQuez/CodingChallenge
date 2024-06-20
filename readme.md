@@ -35,7 +35,7 @@ This solution contains an easy to use and simple contact manager. It also works 
 
 
 # My Improvements
-To complete the challenge I had chosen the following three improvements.
+To complete the challenge, I had chosen the following three improvements.
 
 * Switch to a datepicker for the Date of Birth input and a dropdown for Title in New/Edit Contact
   
